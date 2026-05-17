@@ -14,14 +14,11 @@ export const config: AppConfig = {
       "I started writing code at 14, building Flutter apps for my school's clubs. Since then I've drifted across stacks — Spring on the backend, React Native on mobile, Go for self-hosted side projects, and a PyTorch detour last semester for a Thai-handwriting classifier. I care most about the seam between systems: making mobile clients that don't lie about state, and backends that don't make mobile clients lie. Outside of code I read essays, run badly, and brew filter coffee.",
     spokenLanguages: [
       { name: "Thai", level: "Native" },
-      { name: "English", level: "Professional · C1" },
-      { name: "Japanese", level: "Conversational · N4" },
+      { name: "English", level: "Professional" },
     ],
     activities: [
-      { year: "2024", title: "National Olympiad in Informatics — Thailand", detail: "Participant · top regional round" },
-      { year: "2025", title: "KMUTT Mini-Hackathon", detail: "Built shuttle-bus tracker · 1st place, mobile track" },
-      { year: "2025", title: "OSS contributions", detail: "Patches to flutter-riverpod and a Spring Boot HTMX starter" },
-      { year: "2025", title: "KMUTT CS Society", detail: "Co-organiser of weekly study sessions for first-year CS" },
+      { year: "2025", title: "SIT Hackathon 2025", detail: "Hackathon participant" },
+      { year: "2025", title: "IBM Bob Hackathon", detail: "Hackathon participant" },
     ],
     email: "punnatorn.bo@mail.kmutt.ac.th",
     github: "github.com/Punkharb",
@@ -50,10 +47,10 @@ export const config: AppConfig = {
   ],
   skills: {
     Languages: ["TypeScript", "Dart", "Python", "Java", "Go", "SQL"],
-    Mobile: ["Flutter", "React Native", "Material 3"],
+    Mobile: ["Flutter", "React Native"],
     Frontend: ["React", "Next.js", "Tailwind", "Vite"],
-    Backend: ["Spring Boot", "Node.js", "Express", "PostgreSQL", "Redis"],
-    "ML / Data": ["PyTorch", "NumPy", "pandas", "scikit-learn"],
-    Tooling: ["Git", "Docker", "Linux", "GitHub Actions"],
+    Backend: ["Node.js"],
+    "ML / Data": ["NumPy", "pandas", "scikit-learn"],
+    Tooling: ["Git", "Linux", "GitHub Actions"],
   },
 };
