@@ -12,12 +12,6 @@ export const config: AppConfig = {
     bio: "I'm a second-year Computer Science student at KMUTT in Bangkok, working at the edge of mobile and full-stack. I like small, type-safe tools, careful APIs, and shipping things that other students actually use.",
     aboutLong:
       "I started writing code at 14, building Flutter apps for my school's clubs. Since then I've drifted across stacks — Spring on the backend, React Native on mobile, Go for self-hosted side projects, and a PyTorch detour last semester for a Thai-handwriting classifier. I care most about the seam between systems: making mobile clients that don't lie about state, and backends that don't make mobile clients lie. Outside of code I read essays, run badly, and brew filter coffee.",
-    now: [
-      { label: "Building", value: "a KMUTT shuttle-bus tracker that ~600 students rely on" },
-      { label: "Learning", value: "Rust — slowly, through Crafting Interpreters" },
-      { label: "Reading", value: "“Designing Data-Intensive Applications”" },
-      { label: "Listening", value: "lo-fi while I shower-thought my way through bugs" },
-    ],
     spokenLanguages: [
       { name: "Thai", level: "Native" },
       { name: "English", level: "Professional · C1" },

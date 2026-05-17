@@ -39,11 +39,6 @@ export interface EducationEntry {
   detail: string;
 }
 
-export interface NowItem {
-  label: string;
-  value: string;
-}
-
 export interface UserConfig {
   name: string;
   surname: string;
@@ -54,7 +49,6 @@ export interface UserConfig {
   season: string;
   bio: string;
   aboutLong: string;
-  now: readonly NowItem[];
   spokenLanguages: readonly SpokenLanguage[];
   activities: readonly Activity[];
   email: string;
