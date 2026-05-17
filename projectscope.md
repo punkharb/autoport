@@ -1,6 +1,6 @@
 ---
-name: autoport
-pitch: AI-summarized personal portfolio that auto-presents GitHub repos to recruiters in under 30 seconds
+name: RepoFolio
+pitch: AI-summarized GitHub portfolio that auto-presents every repo to recruiters in under 30 seconds (codename autoport)
 domain: portfolio personal-site developer-branding
 target_users: tech recruiters, engineering managers, peers and future collaborators
 key_entities:

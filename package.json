@@ -1,8 +1,8 @@
 {
-  "name": "autoport",
+  "name": "repofolio",
   "version": "0.1.0",
   "private": true,
-  "description": "AI-summarized personal portfolio for Punnatorn Boonkrajang. Next.js 16 + Tailwind + live GitHub data.",
+  "description": "RepoFolio — AI-summarized GitHub portfolio. Next.js 16 + Tailwind + live GitHub data.",
   "scripts": {
     "dev": "pnpm --filter frontend dev",
     "build": "pnpm --filter frontend build",

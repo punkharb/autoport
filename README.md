@@ -1,9 +1,11 @@
-# autoport
+# RepoFolio
+
+> AI-summarized GitHub portfolio. Codename: `autoport`.
 
 [![ci](https://github.com/punkharb/autoport/actions/workflows/ci.yml/badge.svg)](https://github.com/punkharb/autoport/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-AI-summarized personal portfolio for **Punnatorn Boonkrajang** (handle `Punkharb`). One page, three themes, real GitHub data.
+Personal portfolio for **Punnatorn Boonkrajang** (handle `Punkharb`). Pulls every public repo from GitHub, summarizes each with Gemini, and presents the whole thing on a single page with three editorial themes. Real data, no hand-authored repo cards.
 
 **Stack:** Next.js 16 (App Router, TS) · Tailwind 4 · pnpm workspaces. No backend, no auth — repo data is fetched server-side from `api.github.com` with 1-hour ISR.
 

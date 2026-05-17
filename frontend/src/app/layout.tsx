@@ -43,9 +43,9 @@ const FAVICON =
   );
 
 export const metadata: Metadata = {
-  title: "Punnatorn Boonkrajang — Software Engineering Intern",
+  title: "Punnatorn Boonkrajang — Software Engineering Intern · RepoFolio",
   description:
-    "Personal portfolio for Punnatorn Boonkrajang, second-year Computer Science student at KMUTT. AI-summarized GitHub repos, real activity, real shipped projects.",
+    "RepoFolio — AI-summarized GitHub portfolio for Punnatorn Boonkrajang, second-year Computer Science student at KMUTT. Real repos, real activity, real shipped projects.",
   icons: { icon: FAVICON },
 };
 
