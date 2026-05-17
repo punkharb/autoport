@@ -1,6 +1,7 @@
 "use client";
 
 import type { PageId, Repo } from "@/lib/types";
+import type { Contributions } from "@/lib/contributions-graphql";
 import { config } from "@/lib/config";
 import { techAggregate } from "@/lib/helpers";
 import { DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon, ArrowURIcon } from "@/lib/icons";
@@ -12,11 +13,12 @@ import { Footer } from "./footer";
 
 interface HomeProps {
   repos: readonly Repo[];
+  contributions: Contributions | null;
   setPage: (p: PageId) => void;
   openRepo: (r: Repo) => void;
 }
 
-export function Home({ repos, setPage, openRepo }: HomeProps) {
+export function Home({ repos, contributions, setPage, openRepo }: HomeProps) {
   const pinned = config.pinnedRepos
     .map((slug) => repos.find((r) => r.name.toLowerCase() === slug.toLowerCase()))
     .filter((r): r is Repo => r !== undefined);
@@ -154,7 +156,7 @@ export function Home({ repos, setPage, openRepo }: HomeProps) {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <TechStackBar repos={repos} />
-          <ContributionGraph />
+          <ContributionGraph contributions={contributions} />
         </div>
       </section>
 

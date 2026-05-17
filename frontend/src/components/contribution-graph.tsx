@@ -1,15 +1,26 @@
 "use client";
 
+import type { Contributions } from "@/lib/contributions-graphql";
 import { CONTRIB, CONTRIB_PALETTE, CONTRIB_TOTAL } from "@/lib/contrib";
 import { Kicker, useCountUp } from "./primitives";
 
-export function ContributionGraph() {
-  const total = useCountUp(CONTRIB_TOTAL, 1500);
+interface ContributionGraphProps {
+  contributions: Contributions | null;
+}
+
+export function ContributionGraph({ contributions }: ContributionGraphProps) {
+  const cells = contributions?.cells ?? CONTRIB;
+  const totalTarget = contributions?.total ?? CONTRIB_TOTAL;
+  const isReal = contributions !== null;
+  const total = useCountUp(totalTarget, 1500);
+
   return (
     <div className="bg-paper-2 border border-rule p-5">
       <div className="flex items-baseline justify-between mb-4 gap-3 flex-wrap">
         <div>
-          <Kicker>Activity · last 12 months</Kicker>
+          <Kicker>
+            {isReal ? "Activity · last 12 months" : "Activity · sample"}
+          </Kicker>
           <div className="font-serif text-[28px] text-ink leading-none tnum mt-1">
             {total.toLocaleString()}{" "}
             <span className="text-ink-3 text-[14px]">contributions</span>
@@ -35,7 +46,7 @@ export function ContributionGraph() {
           {Array.from({ length: 53 }).map((_, w) => (
             <div key={w} className="flex flex-col gap-[3px]">
               {Array.from({ length: 7 }).map((_, d) => {
-                const v = CONTRIB[w * 7 + d];
+                const v = cells[w * 7 + d] ?? 0;
                 return (
                   <div
                     key={d}
