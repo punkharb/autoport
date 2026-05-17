@@ -1,14 +1,15 @@
 {
-  "name": "vibestack",
+  "name": "autoport",
   "version": "0.1.0",
   "private": true,
-  "description": "Reusable Next.js + Express + Supabase blueprint with a vendored Claude Code toolkit and /adapt prune workflow.",
+  "description": "AI-summarized personal portfolio for Punnatorn Boonkrajang. Next.js 16 + Tailwind + live GitHub data.",
   "scripts": {
-    "dev": "pnpm -r --parallel run dev",
-    "build": "pnpm -r run build",
-    "start": "pnpm -r --parallel run start",
-    "lint": "pnpm -r run lint",
-    "clean": "pnpm -r exec rimraf node_modules .next dist"
+    "dev": "pnpm --filter frontend dev",
+    "build": "pnpm --filter frontend build",
+    "start": "pnpm --filter frontend start",
+    "lint": "pnpm --filter frontend lint",
+    "typecheck": "pnpm --filter frontend typecheck",
+    "clean": "pnpm -r exec rimraf node_modules .next"
   },
   "engines": {
     "node": ">=20",
