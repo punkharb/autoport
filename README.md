@@ -1,152 +1,98 @@
-# vibestack
+# autoport
 
-[![ci](https://github.com/punkharb/vibestack/actions/workflows/ci.yml/badge.svg)](https://github.com/punkharb/vibestack/actions/workflows/ci.yml)
+[![ci](https://github.com/punkharb/autoport/actions/workflows/ci.yml/badge.svg)](https://github.com/punkharb/autoport/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-Reusable full-stack web blueprint with a battle-tested Claude Code toolkit baked in. Clone, fill in `projectscope.md`, run `/adapt`, start building.
+AI-summarized personal portfolio for **Punnatorn Boonkrajang** (handle `Punkharb`). One page, three themes, real GitHub data.
 
-**Stack:** Next.js 16 (App Router, TS) · Tailwind CSS 4 · shadcn/ui · Express + TS · Supabase (Auth + Postgres) · pnpm workspaces.
+**Stack:** Next.js 16 (App Router, TS) · Tailwind 4 · pnpm workspaces. No backend, no auth — repo data is fetched server-side from `api.github.com` with 1-hour ISR.
 
-**Claude Code:** ships with 60 agents, 230+ skills, and 75 commands vendored from [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) (MIT — full credit + license preserved, see [`NOTICE.md`](./NOTICE.md) and [`.claude/UPSTREAM-LICENSE`](./.claude/UPSTREAM-LICENSE)). `/adapt` prunes the ones that don't match your project and rebadges the survivors with your project name + domain.
+Originally scaffolded from the [vibestack](https://github.com/punkharb/vibestack) blueprint and adapted via `/adapt`; the Claude Code toolkit shipped in `.claude/` is vendored from [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) (MIT — see [`NOTICE.md`](./NOTICE.md)).
 
 ## Layout
 
 ```
 .
-├── frontend/   Next.js 16 app (port 3000)
-└── backend/    Express API (port 4000)
+├── frontend/        Next.js 16 app (port 3000) — the portfolio itself
+├── design/          1:1 design reference (single-file React + Babel CDN)
+├── PROJECT_SCOPE.md full v1 spec
+├── projectscope.md  /adapt front matter
+└── .claude/         agent + skill toolkit, pruned to portfolio domain
 ```
 
 ## Prerequisites
 
-- Node `>=20`
-- pnpm `>=9`
-- A Supabase project (free tier fine): https://supabase.com/dashboard
-
-## Supabase project setup (one-time)
-
-1. Sign in at https://supabase.com/dashboard → **New project**. Pick any region; save the database password somewhere safe.
-2. Wait ~1 min for provisioning. Then go to **Project Settings → API**:
-   - Copy `Project URL` → that's your `NEXT_PUBLIC_SUPABASE_URL` (also `SUPABASE_URL` for the backend).
-   - Copy `anon public` → `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-   - Copy `service_role` (reveal first) → `SUPABASE_SERVICE_ROLE_KEY`. **Server-only. Never expose to the browser.**
-3. Go to **Authentication → Sign In / Providers**, enable **Email** (password). Disable "Confirm email" for local development so you can sign in immediately after sign-up.
-4. (Optional, for deployed builds) **Authentication → URL Configuration**: add your production origin to **Site URL** and **Redirect URLs**.
+- Node `>= 20`
+- pnpm `>= 9`
 
 ## Setup
 
 ```bash
-# 1. clone + (optional) rename folder
-git clone https://github.com/punkharb/vibestack.git my-project
-cd my-project
-
-# 2. install all workspace deps
+git clone https://github.com/punkharb/autoport.git
+cd autoport
 pnpm install
-
-# 3. configure env
 cp frontend/.env.local.example frontend/.env.local
-cp backend/.env.example backend/.env
-# fill in SUPABASE_URL, ANON_KEY, SERVICE_ROLE_KEY in both files
-
-# 4. (optional) opt into the bundled MCP servers — see "MCP servers" section
-cp .mcp.json.example .mcp.json
-
-# 5. run dev (frontend + backend in parallel)
+# (optional) put a GITHUB_TOKEN in frontend/.env.local for 5000 req/hr
 pnpm dev
 ```
 
-Visit:
-- Frontend: http://localhost:3000
-- Backend health: http://localhost:4000/health
+Open <http://localhost:3000>.
 
-## Example flows wired
+## How real data lands on the page
 
-- `/` landing
-- `/login` email + password sign in / sign up (Supabase Auth)
-- `/dashboard` server-gated layout, redirects to `/login` if no session, calls backend `/me`
-- `/settings` placeholder protected page
+`frontend/src/app/page.tsx` is a server component that calls `fetchRepos('Punkharb')` from `frontend/src/lib/github.ts`. That fetcher:
 
-Backend:
-- `GET /health` public
-- `GET /me` requires `Authorization: Bearer <supabase-access-token>`
+1. Lists public, non-fork repos via `GET /users/Punkharb/repos`.
+2. Fetches per-repo language byte counts in parallel via `GET /repos/Punkharb/{name}/languages`.
+3. Maps each result into the design's `Repo` shape (name, description, languages, primary, stars, forks, pushedAt, url, techStack, features).
+
+Caching is handled by Next.js `revalidate: 3600` — the homepage is statically prerendered and refreshes hourly via ISR.
+
+Without `GITHUB_TOKEN`, GitHub allows 60 requests/hour per IP. With any classic or fine-grained read-only token, that becomes 5000/hour. The token is opt-in.
 
 ## Build
 
 ```bash
 pnpm build
-# frontend -> .next/
-# backend  -> backend/dist/
+# output: frontend/.next/
 ```
 
-## Deployment notes (per clone, not pre-configured)
+## Deploy to Vercel
 
-- Frontend → Vercel (zero config) or self-host with `pnpm --filter frontend start`.
-- Backend → Render / Fly / Railway / any Node host. Build: `pnpm --filter backend build`. Start: `node backend/dist/index.js`.
-- Set Supabase Auth redirect URLs to match your deployed origin.
+The project is already wired for Vercel. To ship a production deploy:
 
-## Customize for a new project
+1. Go to <https://vercel.com/new>.
+2. Import `punkharb/autoport`.
+3. **Root Directory:** `frontend`.
+4. **Framework Preset:** Next.js (auto-detected).
+5. **Environment Variables:** add `GITHUB_TOKEN` with a read-only PAT for `Punkharb` public repos.
+6. Click **Deploy**.
 
-1. Clone this repo into a new directory (rename it whatever you want; nothing in the code refers to the folder name).
-2. Update root `package.json` `name`.
-3. Delete or modify example pages under `frontend/src/app`.
-4. Add your own routes under `backend/src/routes` and mount in `backend/src/index.ts`.
-5. Add tables to Supabase, generate types: `pnpm dlx supabase gen types typescript ...`.
+Subsequent pushes to `main` deploy automatically; PRs get preview URLs.
 
-## Claude Code setup
+## CI
 
-The repo vendors a full agent + skill library from
-[`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code)
-(MIT, see [`NOTICE.md`](./NOTICE.md)) and adds a `/adapt` command that
-prunes what doesn't match your project.
+`.github/workflows/ci.yml` runs lint, typecheck, and build on every push to `main` and every PR. The build step reads `secrets.GH_PORTFOLIO_TOKEN` if present (optional — anon GitHub works for a single build but can flake on rate limits).
 
-```text
-.claude/
-├── agents/      60 specialist subagents       (vendored, pruned by /adapt)
-├── skills/      230+ workflow skills          (vendored, pruned by /adapt)
-├── commands/    75 slash commands             (vendored, pruned by /adapt)
-├── rules/       20 always-follow rules        (vendored)
-├── scripts/
-│   └── adapt.mjs        prune + rebadge worker
-├── skills/adapt-project/SKILL.md   first-party (the only added skill)
-├── commands/adapt.md               first-party (/adapt entry point)
-└── UPSTREAM-LICENSE                upstream MIT license
-.mcp.json.example                   vendored MCP server config (opt-in)
-```
+## Working with this repo
 
-To use:
+The user-facing portfolio lives entirely in `frontend/src/`:
 
-1. Edit `projectscope.md` — name, pitch, domain, key entities, etc.
-2. In Claude Code, run `/adapt` (or `node .claude/scripts/adapt.mjs --dry-run` first).
-3. The script hard-deletes vendored agents/skills/commands whose filename
-   tokens don't intersect your project's keywords, then prepends
-   `[{name} · {domain}]` to the `description:` of every survivor, then
-   rewrites root `CLAUDE.md`.
-4. Re-run `/adapt` any time `projectscope.md` changes. Pruned files are
-   *not* restored automatically — to widen the keep-set after a prune,
-   re-vendor (see `NOTICE.md`).
+- `app/page.tsx` — server entry, fetches repos.
+- `app/layout.tsx` — fonts, metadata, favicon.
+- `app/globals.css` — design tokens, themes, animations.
+- `components/app-shell.tsx` — client state owner (page, theme, modal).
+- `components/{home,projects,about}.tsx` — the three pages.
+- `components/repo-card.tsx`, `repo-modal.tsx`, `header.tsx`, `footer.tsx`, `tech-stack-bar.tsx`, `contribution-graph.tsx`, `primitives.tsx`.
+- `lib/{config,types,helpers,icons,contrib,github}.ts(x)`.
 
-To tune what survives without filling in `projectscope.md` differently,
-edit the `ALWAYS_KEEP_*`, `ALWAYS_DROP`, and `buildKeywords()` sections
-at the top of `.claude/scripts/adapt.mjs`.
-
-## MCP servers (opt-in)
-
-`.mcp.json.example` ships with six MCP server configurations (github,
-context7, exa, memory, playwright, sequential-thinking). To activate:
-
-```bash
-cp .mcp.json.example .mcp.json
-```
-
-Claude Code reads `.mcp.json` automatically. Servers you don't have
-installed locally fail silently — remove their entries from `.mcp.json` if
-you want a clean startup. `.mcp.json` is gitignored so your local choices
-don't pollute the blueprint.
+The owner profile (bio, education, activities, skills, pinned repo slugs) is in `lib/config.ts` — edit there.
 
 ## Credits
 
-- Claude Code toolkit content (agents / skills / commands / rules / MCP config) is vendored from [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) (MIT, © 2026 Affaan Mustafa), pinned at commit `6d130cf`. See [`NOTICE.md`](./NOTICE.md) for the full attribution.
-- First-party additions (the Next.js + Express + Supabase scaffold, the `adapt-project` skill, and `.claude/scripts/adapt.mjs`) are MIT-licensed by this repo (see [`LICENSE`](./LICENSE)).
+- Claude Code toolkit content (agents / skills / commands / rules / MCP config) is vendored from [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) (MIT, © 2026 Affaan Mustafa). See [`NOTICE.md`](./NOTICE.md).
+- Blueprint base from [`punkharb/vibestack`](https://github.com/punkharb/vibestack).
+- Visual design + content: Punnatorn Boonkrajang.
 
 ## License
 
