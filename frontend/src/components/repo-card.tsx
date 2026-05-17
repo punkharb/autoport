@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Repo } from "@/lib/types";
 import { langColour, langPct, relTime } from "@/lib/helpers";
 import { ArrowURIcon, StarIcon } from "@/lib/icons";
@@ -23,16 +22,7 @@ export function RepoCard({
 }: RepoCardProps) {
   const swatch = langColour(repo.primary);
   const pct = langPct(repo.languages);
-  const [active, setActive] = useState(false);
-  // Defer "WIP" badge to post-mount: avoids Date.now() in render (purity rule)
-  // and avoids server/client hydration drift from a wall-clock comparison.
-  useEffect(() => {
-    const pushedMs = new Date(repo.pushedAt).getTime();
-    if (Number.isNaN(pushedMs)) return;
-    const daysSince = (Date.now() - pushedMs) / 86_400_000;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActive(daysSince < 30);
-  }, [repo.pushedAt]);
+  const active = repo.active;
   const animClass = animateDelay != null ? "fade-up" : "";
   const style =
     animateDelay != null ? { animationDelay: `${animateDelay}ms` } : undefined;
@@ -49,6 +39,7 @@ export function RepoCard({
       }}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
+      aria-label={onClick ? `Open ${repo.name} details` : undefined}
       style={style}
       className={`repo-card group relative bg-paper-2 border border-rule hover:border-ink transition-colors duration-150 cursor-pointer flex flex-col ${animClass} ${
         featured ? "md:col-span-2 md:row-span-1" : ""
@@ -70,7 +61,7 @@ export function RepoCard({
           )}
         </div>
         <div className="font-mono text-[10.5px] tnum text-ink-3 flex items-center gap-1">
-          <StarIcon className="w-2.5 h-2.5 text-forest" /> {repo.stars}
+          <StarIcon aria-hidden="true" className="w-2.5 h-2.5 text-forest" /> {repo.stars}
         </div>
       </div>
       <div className="p-5 flex-1 flex flex-col">
@@ -113,7 +104,7 @@ export function RepoCard({
         <div className="flex items-center gap-2 tnum">
           <span>updated {relTime(repo.pushedAt)}</span>
           <span className="arrow-affordance text-forest">
-            <ArrowURIcon className="w-3 h-3" />
+            <ArrowURIcon aria-hidden="true" className="w-3 h-3" />
           </span>
         </div>
       </div>

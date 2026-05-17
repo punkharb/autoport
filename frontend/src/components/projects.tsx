@@ -8,7 +8,7 @@ import { Kicker } from "./primitives";
 import { RepoCard } from "./repo-card";
 import { Footer } from "./footer";
 
-type Sort = "stars" | "updated" | "created";
+type Sort = "stars" | "updated" | "name";
 
 interface ProjectsProps {
   repos: readonly Repo[];
@@ -72,7 +72,7 @@ export function Projects({ repos, openRepo }: ProjectsProps) {
       <section className="max-w-[1100px] mx-auto px-6 pb-6">
         <div className="bg-paper-2 border border-rule p-3 flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2 px-3 py-2 bg-paper border border-rule flex-1 min-w-[200px]">
-            <SearchIcon className="w-3.5 h-3.5 text-ink-3" />
+            <SearchIcon aria-hidden="true" className="w-3.5 h-3.5 text-ink-3" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -86,7 +86,7 @@ export function Projects({ repos, openRepo }: ProjectsProps) {
                 aria-label="Clear search"
                 className="text-ink-3 hover:text-ink"
               >
-                <XIcon className="w-3 h-3" />
+                <XIcon aria-hidden="true" className="w-3 h-3" />
               </button>
             )}
           </div>
@@ -118,7 +118,7 @@ export function Projects({ repos, openRepo }: ProjectsProps) {
             >
               <option value="stars">Most stars</option>
               <option value="updated">Recently updated</option>
-              <option value="created">Name (A–Z)</option>
+              <option value="name">Name (A–Z)</option>
             </select>
           </div>
         </div>
@@ -126,7 +126,12 @@ export function Projects({ repos, openRepo }: ProjectsProps) {
 
       <section className="max-w-[1100px] mx-auto px-6 pb-20">
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div
+            role="status"
+            aria-live="polite"
+            aria-label="Loading repositories"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          >
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-paper-2 border border-rule h-[320px]">
                 <div className="h-9 border-b border-rule shimmer" />
@@ -144,7 +149,7 @@ export function Projects({ repos, openRepo }: ProjectsProps) {
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="bg-paper-2 border border-rule p-12 text-center">
+          <div role="status" className="bg-paper-2 border border-rule p-12 text-center">
             <div className="font-serif text-[32px] italic text-forest mb-2">
               Nothing here yet.
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { PageId, Repo, ThemeId } from "@/lib/types";
 import { Header } from "./header";
 import { Home } from "./home";
@@ -17,10 +17,11 @@ export function AppShell({ repos }: AppShellProps) {
   const [theme, setTheme] = useState<ThemeId>("sans");
   const [openRepoData, setOpenRepoData] = useState<Repo | null>(null);
 
-  const setPage = (p: PageId) => {
+  const setPage = useCallback((p: PageId) => {
     setPageState(p);
     if (typeof window !== "undefined") window.scrollTo(0, 0);
-  };
+  }, []);
+  const closeRepo = useCallback(() => setOpenRepoData(null), []);
 
   return (
     <div className="min-h-screen bg-paper" data-theme={theme}>
@@ -34,7 +35,7 @@ export function AppShell({ repos }: AppShellProps) {
         )}
         {page === "about" && <About />}
       </main>
-      <RepoModal repo={openRepoData} onClose={() => setOpenRepoData(null)} />
+      <RepoModal repo={openRepoData} onClose={closeRepo} />
     </div>
   );
 }

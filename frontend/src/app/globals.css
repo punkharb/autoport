@@ -146,10 +146,20 @@ body {
 body, [data-theme] { transition: background-color 320ms ease; }
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-up, .slide-in-right, .scale-in, .contrib-pop, .flicker {
+  .fade-up,
+  .slide-in-right,
+  .scale-in,
+  .contrib-pop,
+  .flicker,
+  .pulse-dot,
+  .wip-pulse,
+  .shimmer {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+  .surname-hover em::after {
+    transition: none !important;
   }
   body, [data-theme] { transition: none; }
 }

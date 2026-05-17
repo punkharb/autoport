@@ -11,15 +11,35 @@ interface RepoModalProps {
   onClose: () => void;
 }
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 export function RepoModal({ repo, onClose }: RepoModalProps) {
   const restoreFocusTo = useRef<HTMLElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!repo) return;
     restoreFocusTo.current = document.activeElement as HTMLElement | null;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !dialogRef.current) return;
+      const focusables = dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const activeEl = document.activeElement as HTMLElement | null;
+      if (e.shiftKey && activeEl === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && activeEl === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -37,12 +57,14 @@ export function RepoModal({ repo, onClose }: RepoModalProps) {
   return (
     <div
       onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="repo-modal-title"
+      role="presentation"
       className="fixed inset-0 z-40 bg-ink/40 flex items-start md:items-center justify-center p-3 md:p-8 overflow-y-auto scale-in"
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="repo-modal-title"
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[820px] bg-paper border border-ink shadow-[0_1px_0_rgba(0,0,0,0.04)] my-auto"
       >
@@ -52,7 +74,7 @@ export function RepoModal({ repo, onClose }: RepoModalProps) {
           aria-label="Close"
           className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center text-ink-3 hover:text-ink hover:bg-paper-3"
         >
-          <XIcon className="w-4 h-4" />
+          <XIcon aria-hidden="true" className="w-4 h-4" />
         </button>
 
         <div className="px-7 pt-7 pb-5 border-b border-rule">
@@ -65,9 +87,11 @@ export function RepoModal({ repo, onClose }: RepoModalProps) {
           >
             <SplitName name={repo.name} />
           </h2>
-          <p className="font-serif text-[18px] leading-[1.5] text-ink-2 mt-3 max-w-[640px]">
-            {repo.aiSummary}
-          </p>
+          {repo.aiSummary && (
+            <p className="font-serif text-[18px] leading-[1.5] text-ink-2 mt-3 max-w-[640px]">
+              {repo.aiSummary}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3">
@@ -174,11 +198,11 @@ export function RepoModal({ repo, onClose }: RepoModalProps) {
             <a
               href={repo.url}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="mt-6 inline-flex items-center justify-center gap-2 w-full px-3 py-2.5 bg-ink text-paper hover:bg-forest font-mono text-[12px] uppercase tracking-[0.14em] transition-colors"
             >
-              <GitHubIcon className="w-3.5 h-3.5" /> View on GitHub{" "}
-              <ArrowURIcon className="w-3 h-3" />
+              <GitHubIcon aria-hidden="true" className="w-3.5 h-3.5" /> View on GitHub{" "}
+              <ArrowURIcon aria-hidden="true" className="w-3 h-3" />
             </a>
           </div>
         </div>

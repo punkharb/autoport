@@ -52,19 +52,29 @@ export function Home({ repos, setPage, openRepo }: HomeProps) {
                 <Kicker>Find</Kicker>
                 <ul className="mt-2 font-mono text-[12.5px] text-ink space-y-1">
                   <li className="flex items-center gap-2">
-                    <GitHubIcon className="w-3.5 h-3.5" />
-                    <a className="hover:text-forest" href={config.user.githubUrl}>
+                    <GitHubIcon aria-hidden="true" className="w-3.5 h-3.5" />
+                    <a
+                      className="hover:text-forest"
+                      href={config.user.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {config.user.github}
                     </a>
                   </li>
                   <li className="flex items-center gap-2">
-                    <LinkedInIcon className="w-3.5 h-3.5" />
-                    <a className="hover:text-forest" href={`https://${config.user.linkedin}`}>
+                    <LinkedInIcon aria-hidden="true" className="w-3.5 h-3.5" />
+                    <a
+                      className="hover:text-forest"
+                      href={`https://${config.user.linkedin}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {config.user.linkedin}
                     </a>
                   </li>
                   <li className="flex items-center gap-2">
-                    <MailIcon className="w-3.5 h-3.5" />
+                    <MailIcon aria-hidden="true" className="w-3.5 h-3.5" />
                     <a className="hover:text-forest" href={`mailto:${config.user.email}`}>
                       {config.user.email}
                     </a>
@@ -74,15 +84,17 @@ export function Home({ repos, setPage, openRepo }: HomeProps) {
               <div className="flex flex-wrap gap-2 pt-1 fade-up d-6">
                 <a
                   href={`/${config.user.cvFile}`}
+                  download
+                  aria-label="Download CV (PDF)"
                   className="inline-flex items-center gap-2 px-3 py-2 bg-ink text-paper hover:bg-forest font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors"
                 >
-                  <DownloadIcon className="w-3.5 h-3.5" /> CV
+                  <DownloadIcon aria-hidden="true" className="w-3.5 h-3.5" /> CV
                 </a>
                 <a
                   href={`mailto:${config.user.email}`}
                   className="inline-flex items-center gap-2 px-3 py-2 border border-ink text-ink hover:bg-ink hover:text-paper font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors"
                 >
-                  <MailIcon className="w-3.5 h-3.5" /> Email
+                  <MailIcon aria-hidden="true" className="w-3.5 h-3.5" /> Email
                 </a>
               </div>
             </div>
@@ -102,7 +114,7 @@ export function Home({ repos, setPage, openRepo }: HomeProps) {
             onClick={() => setPage("projects")}
             className="font-mono text-[11.5px] uppercase tracking-[0.14em] text-ink-2 hover:text-forest flex items-center gap-1.5"
           >
-            All {repos.length} repositories <ArrowURIcon className="w-3 h-3" />
+            All {repos.length} repositories <ArrowURIcon aria-hidden="true" className="w-3 h-3" />
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

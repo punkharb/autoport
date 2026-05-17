@@ -86,6 +86,10 @@ export async function fetchRepos(handle: string): Promise<Repo[]> {
         languages = r.language ? { [r.language]: 1 } : {};
       }
       const primary = r.language ?? topLanguages(languages, 1)[0] ?? "Other";
+      const pushedMs = new Date(r.pushed_at).getTime();
+      const active =
+        Number.isFinite(pushedMs) &&
+        (Date.now() - pushedMs) / 86_400_000 < 30;
       return {
         name: r.name,
         description: r.description ?? "",
@@ -98,6 +102,7 @@ export async function fetchRepos(handle: string): Promise<Repo[]> {
         forks: r.forks_count,
         pushedAt: r.pushed_at,
         url: r.html_url,
+        active,
       };
     }),
   );

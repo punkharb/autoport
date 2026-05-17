@@ -121,19 +121,23 @@ export function About() {
               href={`mailto:${config.user.email}`}
               className="inline-flex items-center gap-2 px-4 py-2.5 bg-ink text-paper hover:bg-forest font-mono text-[12px] uppercase tracking-[0.14em] transition-colors"
             >
-              <MailIcon className="w-3.5 h-3.5" /> Email
+              <MailIcon aria-hidden="true" className="w-3.5 h-3.5" /> Email
             </a>
             <a
               href={config.user.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 border border-ink text-ink hover:bg-ink hover:text-paper font-mono text-[12px] uppercase tracking-[0.14em] transition-colors"
             >
-              <GitHubIcon className="w-3.5 h-3.5" /> GitHub
+              <GitHubIcon aria-hidden="true" className="w-3.5 h-3.5" /> GitHub
             </a>
             <a
               href={`/${config.user.cvFile}`}
+              download
+              aria-label="Download CV (PDF)"
               className="inline-flex items-center gap-2 px-4 py-2.5 border border-ink text-ink hover:bg-ink hover:text-paper font-mono text-[12px] uppercase tracking-[0.14em] transition-colors"
             >
-              <DownloadIcon className="w-3.5 h-3.5" /> Download CV
+              <DownloadIcon aria-hidden="true" className="w-3.5 h-3.5" /> Download CV
             </a>
           </div>
         </div>
