@@ -16,7 +16,11 @@ function ThemeSwitcher({ theme, setTheme }: ThemeSwitcherProps) {
     { id: "serif", label: "Serif", hint: "Editorial classic" },
   ];
   return (
-    <div className="ml-2 mr-1 flex items-center gap-0 border border-rule bg-paper-2">
+    <div
+      role="group"
+      aria-label="Typography theme"
+      className="ml-2 mr-1 flex items-center gap-0 border border-rule bg-paper-2"
+    >
       {themes.map((t) => (
         <button
           key={t.id}
@@ -50,6 +54,7 @@ export function Header({ page, setPage, theme, setTheme }: HeaderProps) {
       <div className="max-w-[1100px] mx-auto px-6 h-14 flex items-center justify-between gap-4">
         <button
           onClick={() => setPage("home")}
+          aria-label={`${config.user.name} — go to home`}
           className="flex items-baseline gap-1 group"
         >
           <span className="font-serif text-[20px] text-ink leading-none">
@@ -77,9 +82,11 @@ export function Header({ page, setPage, theme, setTheme }: HeaderProps) {
           <ThemeSwitcher theme={theme} setTheme={setTheme} />
           <a
             href={`/${config.user.cvFile}`}
+            download
+            aria-label="Download CV (PDF)"
             className="ml-1 inline-flex items-center gap-1.5 px-3 py-1.5 bg-ink text-paper hover:bg-forest font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors"
           >
-            <DownloadIcon className="w-3 h-3" /> CV
+            <DownloadIcon aria-hidden="true" className="w-3 h-3" /> CV
           </a>
         </nav>
       </div>

@@ -12,6 +12,8 @@ export interface Repo {
   forks: number;
   pushedAt: string;
   url: string;
+  /** True if pushed within the last 30 days. Computed server-side to avoid hydration flicker. */
+  active: boolean;
 }
 
 export interface LangPct {

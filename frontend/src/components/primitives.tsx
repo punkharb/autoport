@@ -117,6 +117,10 @@ export function useCountUp(to: number, ms = 1200): number {
   useEffect(() => {
     let raf = 0;
     let start: number | null = null;
+    // Reset to 0 on every `to` change so the ramp restarts from zero
+    // rather than from the previous animation's frozen final value.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setV(0);
     const tick = (t: number) => {
       if (start === null) start = t;
       const p = Math.min(1, (t - start) / ms);

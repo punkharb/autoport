@@ -31,6 +31,7 @@ export function relTime(iso: string, now: Date = new Date()): string {
   const t = new Date(iso).getTime();
   if (Number.isNaN(t)) return "—";
   const d = (now.getTime() - t) / 86_400_000;
+  if (d < 0) return "just now";
   if (d < 2) return "yesterday";
   if (d < 14) return `${Math.round(d)} days ago`;
   if (d < 60) return `${Math.round(d / 7)} weeks ago`;
