@@ -11,11 +11,13 @@ next-env.d.ts
 dist/
 build/
 
-# env
+# env (templates `*.example` are tracked)
 .env
 .env.*
 !.env.example
 !.env.local.example
+!**/.env.example
+!**/.env.local.example
 
 # logs
 *.log
