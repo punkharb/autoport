@@ -1,4 +1,5 @@
 import type { Repo, RepoLanguages } from "./types";
+import { summarizeRepo } from "./gemini";
 
 const API_BASE = "https://api.github.com";
 
@@ -90,10 +91,21 @@ export async function fetchRepos(handle: string): Promise<Repo[]> {
       const active =
         Number.isFinite(pushedMs) &&
         (Date.now() - pushedMs) / 86_400_000 < 30;
+
+      const fallback = summarize(r, primary);
+      const aiSummary =
+        (await summarizeRepo({
+          name: r.name,
+          description: r.description ?? "",
+          primary,
+          languages: Object.keys(languages),
+          topics: r.topics ?? [],
+        })) ?? fallback;
+
       return {
         name: r.name,
         description: r.description ?? "",
-        aiSummary: summarize(r, primary),
+        aiSummary,
         techStack: deriveTechStack(languages, r.topics ?? []),
         features: [],
         languages,
