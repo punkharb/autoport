@@ -9,9 +9,9 @@ export const config: AppConfig = {
     handle: "Punkharb",
     roleSought: "Software Engineering Intern",
     season: "Summer 2026",
-    bio: "I'm a second-year Computer Science student at KMUTT in Bangkok, working at the edge of mobile and full-stack. I like small, type-safe tools, careful APIs, and shipping things that other students actually use.",
+    bio: "I'm a second-year CS student at KMUTT in Bangkok. I build for web and mobile — sometimes with a plan, usually by vibing through it.",
     aboutLong:
-      "I started writing code at 14, building Flutter apps for my school's clubs. Since then I've drifted across stacks — Spring on the backend, React Native on mobile, Go for self-hosted side projects, and a PyTorch detour last semester for a Thai-handwriting classifier. I care most about the seam between systems: making mobile clients that don't lie about state, and backends that don't make mobile clients lie. Outside of code I read essays, run badly, and brew filter coffee.",
+      "Java got me into coding and I haven't found a reason to stop using it. Since then I've added Flutter, React, TypeScript, and enough Firebase to get by. I've shipped across the stack — frontend, backend, testing — depending on what the team needs. I like starting from zero and figuring things out fast. Recently I've been getting into ML and local AI tooling, which is a rabbit hole I don't regret. I'm looking for a software engineering internship where I can actually build things.",
     spokenLanguages: [
       { name: "Thai", level: "Native" },
       { name: "English", level: "Professional" },
