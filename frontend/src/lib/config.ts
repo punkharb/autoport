@@ -18,7 +18,7 @@ export const config: AppConfig = {
     ],
     activities: [
       { year: "2025", title: "SIT Hackathon 2025", detail: "Hackathon participant" },
-      { year: "2025", title: "IBM Bob Hackathon", detail: "Hackathon participant" },
+      { year: "2026", title: "IBM Bob Hackathon", detail: "Hackathon participant" },
     ],
     email: "ppbthunder@gmail.com",
     github: "github.com/Punkharb",
