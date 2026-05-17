@@ -1,9 +1,15 @@
-export default function Home() {
-  return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <p className="text-sm tracking-wide text-neutral-500">
-        autoport — porting design.
-      </p>
-    </main>
-  );
+import { AppShell } from "@/components/app-shell";
+import { fetchRepos } from "@/lib/github";
+import { config } from "@/lib/config";
+
+export const revalidate = 3600;
+
+export default async function Page() {
+  let repos: Awaited<ReturnType<typeof fetchRepos>> = [];
+  try {
+    repos = await fetchRepos(config.user.handle);
+  } catch (err) {
+    console.error("[autoport] GitHub fetch failed:", err);
+  }
+  return <AppShell repos={repos} />;
 }
