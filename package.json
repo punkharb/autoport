@@ -11,6 +11,9 @@
     "typecheck": "pnpm --filter frontend typecheck",
     "clean": "pnpm -r exec rimraf node_modules .next"
   },
+  "dependencies": {
+    "next": "16.2.6"
+  },
   "engines": {
     "node": ">=20",
     "pnpm": ">=9"
