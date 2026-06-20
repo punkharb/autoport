@@ -11,6 +11,18 @@ Personal portfolio for **Punnatorn Boonkrajang** (handle `Punkharb`). Pulls ever
 
 Originally scaffolded from the [vibestack](https://github.com/punkharb/vibestack) blueprint and adapted via `/adapt`; the Claude Code toolkit shipped in `.claude/` is vendored from [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) (MIT — see [`NOTICE.md`](./NOTICE.md)).
 
+## Project tierlist
+
+Self-assessment of every repo by ambition, polish, and portfolio value.
+
+| Tier | Repos | Why |
+|------|-------|-----|
+| **S** | `futuresight` · `fooddex` · `xauusd-trading-research` | Original ideas, full-stack scope, honest engineering — lead with these |
+| **A** | `codesense` · `Integrated-Project-II` · `dailydex` | Strong scope with live demos or heavy architecture |
+| **B** | `tripza` · `quietlog-suite` · `autoport` | Solid, but niche audience or still early |
+| **C** | `vibestack` | Reusable blueprint — tooling, not a product |
+| **D** | `my-first-year` · `my-second-year` · `csc105-hands-on-2024` · `git-tutorial` | Coursework and practice repos |
+
 ## Layout
 
 ```
