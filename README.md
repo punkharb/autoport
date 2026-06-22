@@ -1,5 +1,7 @@
 # RepoFolio
 
+![autoport — product screenshot](docs/screenshot.png)
+
 > AI-summarized GitHub portfolio. Codename: `autoport`.
 
 [![ci](https://github.com/punkharb/autoport/actions/workflows/ci.yml/badge.svg)](https://github.com/punkharb/autoport/actions/workflows/ci.yml)
